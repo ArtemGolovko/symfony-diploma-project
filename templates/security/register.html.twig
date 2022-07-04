@@ -25,23 +25,22 @@
         required: true
     }) }}
 
-    {{ form_row(form.plainPassword, {
-        first_options: {
-            label: 'Пароль',
-            attr: {
-                placeholder: 'Пароль'
-            },
-            required: true
-        },
-        second_options: {
-            label: 'Подтверждение пароля',
-            attr: {
-                placeholder: 'Подтверждение пароля'
-            },
-            required: true
+    {{ form_row(form.plainPassword.password, {
+        label: 'Пароль',
+        attr: {
+            placeholder: 'Пароль'
         },
         required: true
     }) }}
+
+    {{ form_row(form.plainPassword.confirmPassword, {
+        label: 'Подтверждение пароля',
+        attr: {
+            placeholder: 'Подтверждение пароля'
+        },
+        required: true
+    }) }}
+
 
     <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Регистрация</button>
     <hr class="my-4">
