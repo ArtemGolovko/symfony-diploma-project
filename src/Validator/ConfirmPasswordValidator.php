@@ -2,28 +2,30 @@
 
 namespace App\Validator;
 
-use App\Form\RepeatedPasswordType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-/**
- * Should be used only in RepeatedPasswordType
- */
 class ConfirmPasswordValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
-        /* @var $constraint \App\Validator\ConfirmPassword */
+        if (!$constraint instanceof ConfirmPassword) {
+            throw new UnexpectedTypeException($constraint, ConfirmPassword::class);
+        }
+        /* @var $constraint ConfirmPassword */
 
         if (null === $value || '' === $value) {
             return;
         }
 
-        /** @var FormType $confirmPassword */
-        $repeatedPassword = $this->context->getObject()->getParent();
-        $originalValue = $repeatedPassword->get('password')->getData();
+        $originalValue = $this
+            ->context
+            ->getObject()
+            ->getParent()
+            ->get('password')
+            ->getData()
+        ;
 
         if ($originalValue == $value) {
             return;
